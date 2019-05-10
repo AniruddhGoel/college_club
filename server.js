@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const compression = require('compression');
 const helmet = require('helmet');
-const mongoose = require('./dbConnect/db');
+const mongoose = require('./src/dbConnect/db');
 const bodyParser = require('body-parser');
 const ejs = require('ejs');
 const path = require('path');
@@ -14,11 +14,11 @@ const flash = require('connect-flash');
 var app = express();
 const port = process.env.PORT || 3000;
 // model
-const User = require('./models/user');
+const User = require('./src/models/user');
 // Routes
-var defaultRoute = require('../routes/defaultRoute');
-var adminRoute = require('../routes/adminDashRoute');
-var commonRoute = require('../routes/commonRoute');
+var defaultRoute = require('./routes/defaultRoute');
+var adminRoute = require('./routes/adminDashRoute');
+var commonRoute = require('./routes/commonRoute');
 
 // session db selection
 const store = new mongodbsession({
@@ -28,10 +28,10 @@ const store = new mongodbsession({
 });
 
 // view engine setup
-app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static(path.join(__dirname, '/public')));
 app.use(compression());
 app.use(helmet());
-app.set('views', path.join(__dirname, '../views'));
+app.set('views', path.join(__dirname, '/views'));
 app.set('view engine', 'ejs');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
