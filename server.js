@@ -22,7 +22,7 @@ var commonRoute = require('./routes/commonRoute');
 
 // session db selection
 const store = new mongodbsession({
-  uri: 'mongodb://Shido94:Rupesh94$@ds155076.mlab.com:55076/club',
+  uri: 'mongodb://aniruddh:bijnor12@ds155076.mlab.com:55076/club',
   // uri: '',
   collection: "session"
 });
