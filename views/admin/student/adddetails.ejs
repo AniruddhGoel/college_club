@@ -1,0 +1,140 @@
+<% include ../partials/header.ejs %>
+<div class="wrapper">
+    <% include ../partials/navigation.ejs %>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Small boxes (Stat box) -->
+        <% if (club_detail){%>
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <h3 class="box-title">Already Club Details Added</h3>
+            </div>
+            <div class="row"  style="margin:10px auto;">
+                <div class="col-md-6 col-md-offset-5">
+                    <a href="/admin/updatedetails/" class="btn btn-primary">Update Detail</a>
+                </div>
+            </div>
+        </div>
+        <%}else{%>
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <h3 class="box-title">Add Club Details</h3>
+            </div>
+            <% if(msg){ %>
+            <% if(status === true){ %>
+            <div class="alert alert-success col-md-6 col-md-offset-3">
+                <%}%>
+                            <% if(status === false){ %>
+                <div class="alert alert-danger col-md-6 col-md-offset-3">
+                    <%}%>
+                                <p><%= msg%></p>
+                </div>
+                <%}%>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form action="<%= action%>?_csrf=<%= csrfToken%>" method="POST" class="form-horizontal"
+                enctype="multipart/form-data">
+                <div class="box-body col-md-6">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-3 control-label">Club Name</label>
+
+                        <div class="col-sm-9">
+                            <input type="text" value="<%= club_name%>" disabled name="club_name" class="form-control"
+                                id="inputEmail3" placeholder="Club Name">
+                        </div>
+                    </div>
+
+                    <div class="clearfix">
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-3 control-label">Club Tag Line</label>
+
+                        <div class="col-sm-9">
+                            <%if(clubData){%>
+                            <input type="text" name="club_tag_line" value="<%= clubData.club_tag_line%>"
+                                class="form-control" id="inputPassword3" placeholder="Club Tag Line">
+                            <%}else{%>
+                            <input type="text" name="club_tag_line" class="form-control" id="inputPassword3"
+                                placeholder="Club Tag Line">
+                            <%}%>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-body col-sm-6">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-3 control-label">Club Domains</label>
+
+                        <div class="col-sm-9">
+                            <%if(clubData){%>
+                            <input type="text" name="club_domains" value="<%= clubData.club_domains%>"
+                                class="form-control" id="inputEmail3" placeholder="Club Domains">
+                            <span>Seperated by Comma(,)</span>
+                            <%}else{%>
+                            <input type="text" name="club_domains" class="form-control" id="inputEmail3"
+                                placeholder="Club Domains">
+                            <span>Seperated by Comma(,)</span>
+                            <%}%>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-3 control-label">Club Website URL</label>
+
+                        <div class="col-sm-9">
+                            <%if(clubData){%>
+                            <input type="text" name="club_web" value="<%= clubData.club_web%>" class="form-control"
+                                id="inputPassword3" placeholder="Club Website URL">
+                            <%}else{%>
+                            <input type="text" name="club_web" class="form-control" id="inputPassword3"
+                                placeholder="Club Website URL">
+                            <%}%>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-3 control-label">Club Description</label>
+
+                        <div class="col-sm-9">
+                            <%if(clubData){%>
+                            <textarea name="club_desc"
+                                style="width: 70%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid rgb(221, 221, 221);"
+                                class="form-control" placeholder="Club Description"><%= clubData.club_des%></textarea>
+                            <%}else{%>
+                            <textarea name="club_desc"
+                                style="width: 70%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid rgb(221, 221, 221);"
+                                class="form-control" placeholder="Club Description"></textarea>
+                            <%}%>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputFile" class="col-sm-3 control-label">File input</label>
+                        <div class="col-sm-9">
+                            <input type="file" name="logo_name" id="exampleInputFile">
+                            <p class="help-block">*select club logo</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken%>" />
+                            <button type="submit" class="btn btn-info col-md-offset-6 ">Submit</button>
+                        </div>
+                        <!-- /.box-footer -->
+            </form>
+        </div>
+        <%}%>
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+<footer class="main-footer">
+    <div class="pull-right hidden-xs">
+        <b>Version</b> 1.0.0
+    </div>
+    <strong>Copyright &copy; 2018-2019 <a>KIET Club Management Auth</a>.</strong> All rights
+    reserved.
+</footer>
+<% include ../partials/footer.ejs%>

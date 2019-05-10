@@ -1,0 +1,46 @@
+body {
+    margin: 0 auto;
+    overflow: hidden;
+    white-space: nowrap;
+    align-items: center;
+    display: block;
+
+}
+
+.db_body {
+    width: 80vw;
+    height: 100vh;
+    box-sizing: border-box;
+    position: sticky;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    margin-top: 10px;
+}
+
+/* topbar */
+.db_nav {
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    float: left;
+    width: 80vw;
+}
+
+.db_navbar {
+    border-radius: 10px;
+}
+
+.db_slider {
+    width: 100vw;
+    height: auto;
+    top: 0;
+}
+
+.db_profile {
+    width: auto;
+    height: auto;
+}
+
+/* @media only screen and (max-width: 415px) */

@@ -1,0 +1,64 @@
+<% include ../partials/header.ejs %>
+<div class="wrapper">
+    <% include ../partials/navigation.ejs %>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Small boxes (Stat box) -->
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <h3 class="box-title">Admin Portal Access</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <% if(msg){ %>
+            <% if(status === true){ %>
+            <div class="alert alert-success col-md-6 col-md-offset-3">
+                <%}%>
+                            <% if(status === false){ %>
+                <div class="alert alert-danger col-md-6 col-md-offset-3">
+                    <%}%>
+                                <p><%= msg%></p>
+                </div>
+                <%}%>
+            <form action="/admin/portalaccess" method="POST" class="form-horizontal">
+                <div class="box-body">
+                    <div class="form-group col-md-6">
+                        <label for="inputEmail3" class="col-sm-3 control-label">Club Lead Email</label>
+                        <div class="col-sm-9">
+                            <input type="email" name="club_lead_email" class="form-control" id="inputEmail3"
+                                placeholder="Club Lead Email">
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="inputEmail3" class="col-sm-3 control-label">Club Name</label>
+                        <div class="col-sm-9">
+                        <select class="form-control" name="club_name">
+                            <option value="">Select Club</option>
+                            <% if(clubList){%>
+                            <% for(club of clubList){%>
+                            <option value="<%= club._id%>"><%= club.club_name%></option>
+                            <%}}%>
+                        </select>
+                        </div>
+                    </div>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken%>" />
+                        <button type="submit" class="btn btn-info col-md-offset-6 ">Submit</button>
+                    </div>
+                    <!-- /.box-footer -->
+            </form>
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+<footer class="main-footer">
+    <div class="pull-right hidden-xs">
+        <b>Version</b> 1.0.0
+    </div>
+    <strong>Copyright &copy; 2018-2019 <a>KIET Club Management Auth</a>.</strong> All rights
+    reserved.
+</footer>
+<% include ../partials/footer.ejs%>

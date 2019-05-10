@@ -1,0 +1,38 @@
+{
+  "name": "collagee-g_portal",
+  "version": "1.0.0",
+  "description": "Collage Group And Event Management portal",
+  "main": "src/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anujydv/collageE-G_portal.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anujydv/collageE-G_portal/issues"
+  },
+  "homepage": "https://github.com/anujydv/collageE-G_portal#readme",
+  "dependencies": {
+    "bcrypt": "^3.0.6",
+    "body-parse": "^0.1.0",
+    "compression": "^1.7.4",
+    "connect-flash": "^0.1.1",
+    "connect-mongodb-session": "^2.0.7",
+    "cookie-parser": "^1.4.4",
+    "csurf": "^1.9.0",
+    "dotenv": "^7.0.0",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "express-session": "^1.16.1",
+    "helmet": "^3.16.0",
+    "http-errors": "^1.7.2",
+    "mongoose": "^5.5.1",
+    "morgan": "^1.9.1",
+    "multer": "^1.4.1",
+    "path": "^0.12.7"
+  }
+}

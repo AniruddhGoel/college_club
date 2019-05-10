@@ -1,0 +1,91 @@
+<% include ../partials/header.ejs %>
+<div class="wrapper">
+    <% include ../partials/navigation.ejs %>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Small boxes (Stat box) -->
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <h3 class="box-title">Add Media</h3>
+            </div>
+            <% if(msg){ %>
+            <% if(status === true){ %>
+            <div class="alert alert-success col-md-6 col-md-offset-3">
+                <%}%>
+                            <% if(status === false){ %>
+                <div class="alert alert-danger col-md-6 col-md-offset-3">
+                    <%}%>
+                                <p><%= msg%></p>
+                </div>
+                <%}%>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form action="/admin/addmedia?_csrf=<%= csrfToken%>"  method="POST" class="form-horizontal" enctype="multipart/form-data">
+                <div class="box-body col-md-6">
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-3 control-label">Select Media Type</label>
+                        <div class="col-sm-9">
+                            <select name="media_type" id="input" class="form-control">
+                                <option value="">Select Media Type</option>
+                                <option value="image">Image</option>
+                                <option value="video">video</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group image" style="display:none;">
+                        <label for="exampleInputFile" class="col-sm-3 control-label">File input</label>
+                        <div class="col-sm-9">
+                            <input type="file" name="media_name" id="exampleInputFile">
+                            <p class="help-block">*select media file(must image)</p>
+                        </div>
+                    </div>
+                    <div class="form-group video" style="display:none;">
+                        <label for="inputEmail3" class="col-sm-3 control-label">Media URL</label>
+
+                        <div class="col-sm-9">
+                            <input type="text" name="media_url" class="form-control" id="inputEmail3"
+                                placeholder="Media URL">
+                        </div>
+                    </div>
+                </div>
+                <div class="box-body col-sm-6">
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-3 control-label">Media Tagline</label>
+
+                        <div class="col-sm-9">
+                            <input type="text" name="media_tag" class="form-control" id="inputPassword3"
+                                placeholder="Media Tagline">
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">                    
+                    <button type="submit" class="btn btn-info col-md-offset-6 ">Submit</button>
+                </div>
+                <!-- /.box-footer -->
+            </form>
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+<footer class="main-footer">
+    <div class="pull-right hidden-xs">
+        <b>Version</b> 1.0.0
+    </div>
+    <strong>Copyright &copy; 2018-2019 <a>KIET Club Management Auth</a>.</strong> All rights
+    reserved.
+</footer>
+<script>
+    document.querySelector('[name=media_type]').addEventListener("change", function () {
+        if (this.value === "video") {
+            document.querySelector("." + this.value).style.display = "block";
+            document.querySelector(".image").style.display = "none";
+        }
+        if (this.value === "image") {
+            document.querySelector("." + this.value).style.display = "block";
+            document.querySelector(".video").style.display = "none";
+        }
+    });
+</script>
+<% include ../partials/footer.ejs%>

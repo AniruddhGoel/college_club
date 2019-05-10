@@ -1,0 +1,99 @@
+.ds_login {
+    width: 100vw;
+    height: 100vh;
+    margin: 0 auto;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    background-color: darkslategray;
+    box-sizing: border-box;
+    position: inherit;
+}
+
+/* input fieldset */
+input:invalid+span:after {
+    content: '✖';
+    padding-left: 5px;
+}
+
+input:valid+span:after {
+    content: '✓';
+    padding-left: 5px;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+.ds_login_body {
+    min-width: 30vw;
+    width: auto;
+    min-height: 40vh;
+    height: auto;
+    border-radius: 5px;
+    box-shadow: 10px 10px 25px rgba(0, 0, 0, 0.5);
+    background-color: darkgrey;
+    overflow: inherit;
+}
+
+@media only screen and (max-width: 426px) {
+    .ds_login_body {
+        border-radius: 0px;
+        box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+    }
+}
+
+@media only screen and (min-width: 1440px) and (max-width: 2560px) {
+    .ds_login_body {
+        min-height: 20vh;
+        height: auto;
+        display: grid;
+        justify-content: baseline
+    }
+}
+
+.ds_login_header {
+    /* margin-bottom: 50px; */
+    width: 100%;
+    height: 20%;
+    margin: 10px 0 0px 0;
+    white-space: nowrap;
+    float: left;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    display: grid;
+}
+
+.ds_form {
+    position: relative;
+    width: 100%;
+    height: 50%;
+    display: flex;
+    margin: 0 auto;
+}
+
+form {
+    width: 90%;
+    margin: 0 auto;
+    /* position: relative */
+}
+
+.btn {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0 10px 0;
+}
+
+.clearBtn {
+    float: right;
+    transform: translate(-5px, -32px);
+}
+
+.show {
+    right: 5px;
+}

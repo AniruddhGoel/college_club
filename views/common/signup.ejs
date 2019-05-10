@@ -1,0 +1,57 @@
+<% include ./partials/header %>
+<link rel="stylesheet" type="text/css" media="screen" href="../stylesheet/login.css" />
+<script src="../js/signup.js" type="text/script"></script>
+
+<body>
+    <section class="ds_login">
+        <div class="ds_login_body">
+            <div class="ds_login_header">
+                <h3>Partial Signup</h3>
+            </div>
+            <div class="text-justify ds_form">
+                <form action="/verify" method="post">
+                    <div class="form-group">
+                        <label for="aadhaar">Enter 12 Digits Aaddhar No:</label>
+                        <input type="number" id="aadhaar" class="form-control" placeholder="----/----/----" required
+                            autofocus min="0" maxlength="12" max="999999999999" pattern="[0-9]{12}" maxlength="12"
+                            list="defaultNumbers">
+                        <span class="validity clearBtn"></span>
+                        <!-- <datalist id="defaultNumbers">
+                            <option value="100456781515">
+                            <option value="103421215511">
+                            <option value="111111119999">
+                            <option value="123456789999">
+                            <option value="129999225119">
+                        </datalist> -->
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Enter Email Address:</label>
+                        <input type="email" id="email" class="form-control" placeholder="Email Address" maxlength="32"
+                            required>
+                        <span class="validity clearBtn"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Enter Mobile No.:</label>
+                        <input type="number" id="phone" class="form-control" placeholder="6513016602"
+                            pattern="[0-9]{10}" minlength="10" maxlength="10" onkeyup="checkInput(this.value)" required>
+                        <span id="clearBtn1" class="validity clearBtn"></span>
+                        <script>
+                            count = 0;
+
+                            function checkInput(text) {
+                                console.log(text.length);
+                                if (text.length > 10) {
+                                    alert("Mobile No. Length is Exceeded.");
+                                }
+                            }
+                        </script>
+                    </div>
+                    <div class="text-center form-group">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken%>" />
+                        <input type="submit" class="btn btn-success" value="GET OTP">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    <% include ./partials/footer %>

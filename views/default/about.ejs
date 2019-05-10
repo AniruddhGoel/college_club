@@ -1,0 +1,74 @@
+<% include partials/header.ejs%>
+<section id="home" class="video-hero"
+	style="height: 500px; background-image: url(images/cover_img_1.jpg);  background-size:cover; background-position: center center;background-attachment:fixed;"
+	data-section="home">
+	<div class="overlay"></div>
+	<div class="display-t display-t2 text-center">
+		<div class="display-tc display-tc2">
+			<div class="container">
+				<div class="col-md-12 col-md-offset-0">
+					<div class="animate-box">
+						<h2><%= club_id[0].club_name%></h2>
+						<p class="breadcrumbs"><span><a href="/">Home</a></span></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<div class="colorlib-about">
+	<div class="container">
+		<div class="row row-pb-lg">
+			<div class="col-md-6 animate-box">
+				<div>
+					<img src="/images/club_logo/<%= club_data[0].logo_name%>" alt="<%= club_data[0].logo_name%> logo">
+					<div class="overlay"></div>
+				</div>
+			</div>
+			<div class="col-md-6 animate-box">
+				<h2>About <%= club_id[0].club_name%></h2>
+				<p>
+					<%= club_data[0].club_des%>
+				</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2 text-center colorlib-heading animate-box">
+				<h2>Recent Achivement Images</h2>
+			</div>
+		</div>
+		<div class="row">
+			<% i=0; while(i<2) {%>
+				<% if(club_media_data[0].recent_media_images[i] === undefined) break;%>
+			<div class="col-md-6 text-center animate-box">
+				<div class="staff-entry">
+					<div class="desc">
+						<img src="/images/club_logo/<%= club_media_data[0].recent_media_images[i]%>" alt="media logo">
+						<h3><%= club_media_data[0].recent_media_images_tag[i]%></h3>
+					</div>
+				</div>
+			</div>
+			<%i++;}%>
+		</div>
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2 text-center colorlib-heading animate-box">
+				<h2>Recent Video</h2>
+			</div>
+		</div>
+		<div class="row">
+			<% i=0; while(i<2) {%>
+				<% if(club_media_data[0].recent_media_video_url[i] === undefined) break;%>
+			<div class="col-md-6 text-center animate-box">
+				<div class="staff-entry">
+					<div class="desc">
+						<object data="<%= club_media_data[0].recent_media_video_url[i]%>" width="500" height="315"></object>
+						<h3><%= club_media_data[0].recent_media_video_tag[i]%></h3>
+					</div>
+				</div>
+			</div>
+			<%i++;}%>
+		</div>
+	</div>
+</div>
+<% include partials/footer.ejs%>

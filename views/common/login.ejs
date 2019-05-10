@@ -1,0 +1,35 @@
+<% include ./partials/header %>
+<link rel="stylesheet" type="text/css" media="screen" href="../stylesheet/login.css" />
+<script src="../js/signup.js" type="text/script"></script>
+
+</head>
+
+<body>
+    <section class="ds_login">
+        <div class="ds_login_body">
+            <div class="ds_login_header">
+                <h3>Admin Login</h3>
+            </div>
+            <br>
+            <div class="text-justify ds_form">
+                <form action="/common/check_login/" method="POST">
+                    <div class="form-group">
+                        <label for="email">Enter Email Address:</label>
+                        <input type="email" id="email" name="email" class="form-control" placeholder="Email Address" maxlength="32"
+                            required>
+                        <span class="validity clearBtn"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" name="password" id="password" class="form-control" required>
+
+                    </div>
+                    <div class="text-center form-group">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken%>" />
+                        <input type="submit" class="btn btn-success" value="Login">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    <% include ./partials/footer %>

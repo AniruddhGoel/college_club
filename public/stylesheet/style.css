@@ -1,0 +1,185 @@
+html {
+    scroll-behavior: smooth;
+}
+body {
+    /* width: 100vh; */
+    /* height: 100vh; */
+    margin: 0 auto;
+    overflow: auto;
+    position: absolute;
+    overflow-x: hidden;
+}
+
+/* body_scrollbar */
+body::-webkit-scrollbar {
+    width: 0.5em;
+}
+
+body::-webkit-scrollbar-track {
+    box-shadow: 0;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+}
+
+body::-webkit-scrollbar-thumb {
+    background-image: linear-gradient(red, yellow);
+    /* background-color: rgb(59, 112, 228); */
+    outline: 1px solid slategrey;
+    border-radius: 5px;
+}
+
+.ds_nav {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+/* topbar */
+.ds_box {
+    width: 100vw;
+    height: auto;
+    float: initial;
+    position: initial;
+    box-sizing: border-box;
+}
+
+.ds_slider {
+    width: 100vw;
+    height: auto;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+/* main body */
+.ds_body {
+    width: 100vw;
+    height: auto;
+    box-sizing: border-box;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    padding-top: 10px;
+    background: rgb(190, 39, 39);
+    overflow: inherit;
+    float: left;
+}
+
+.ds_searchbox {
+    float: left;
+}
+
+@media only screen and (max-width: 795px) {
+    .ds_body {
+        /* top: 0vh; */
+        margin: 0;
+    }
+}
+
+@media only screen and (max-width: 1392px) {
+    .ds_body {
+        /* top: 0vh; */
+        margin: 0;
+    }
+}
+
+/* footer */
+
+.ds_footer {
+    clear: both;
+    width: 100vw;
+    height: auto;
+    margin-top: -30vh;
+    display: block;
+    position: relative;
+    float: inline-end;
+    background-color: lightgrey;
+    box-sizing: border-box;
+    top: 80vh;
+    bottom: 0;
+    overflow: hidden;
+    float: left;
+    clear: left;
+}
+
+.ds_footer {
+    /* STYLING */
+    padding-top: 20px;
+    padding-bottom: 20px;
+    overflow-x: hidden;
+}
+
+.ds_search,
+.ds_contact,
+.ds_info {
+    margin-left: 30px;
+}
+
+.ds_social li {
+    display: inline;
+}
+
+@media only screen and (max-width: 810px) {
+    .ds_footer {
+        white-space: nowrap;
+        overflow-x: hidden;
+    }
+
+    .ds_search {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 415px) {
+    .ds_footer {
+        overflow-x: hidden;
+    }
+}
+
+.ds_copyright {
+    bottom: 0;
+    box-sizing: border-box;
+    margin-top: 10px;
+}
+
+.ds_copyright>p {
+    width: 100%;
+    height: 7px;
+    /* background: lightblue; */
+    position: absolute;
+    text-align: center;
+    bottom: 0;
+}
+
+/* ---- particles.js container ---- */
+/*
+#particles-js {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #102E4F;
+    background-image: url("");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 50% 50%;
+}
+
+.center {
+    margin: auto;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.startBtn {
+    font-family: 'Titanium-Web';
+    width: 7rem;
+    letter-spacing: 3px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    border-radius: 0px;
+} */
+
+/* Login */

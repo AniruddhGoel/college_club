@@ -1,0 +1,89 @@
+<% include ../partials/header.ejs %>
+<div class="wrapper">
+    <% include ../partials/navigation.ejs %>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Small boxes (Stat box) -->
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <h3 class="box-title">Add Club</h3>
+            </div>
+            <% if(msg){ %>
+            <% if(status === true){ %>
+            <div class="alert alert-success col-md-6 col-md-offset-3">
+                <%}%>
+                            <% if(status === false){ %>
+                <div class="alert alert-danger col-md-6 col-md-offset-3">
+                    <%}%>
+                                <p><%= msg%></p>
+                </div>
+                <%}%>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form action="/admin/addachievement/" method="POST" class="form-horizontal">
+                <div class="box-body col-md-6">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-3 control-label">Title</label>
+
+                        <div class="col-sm-9">
+                            <input type="text" name="achiv_heading" class="form-control" id="inputEmail3"
+                                placeholder="Achievement Title">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-3 control-label">Event Name</label>
+
+                        <div class="col-sm-9">
+                            <input type="text" name="event_name" class="form-control" id="inputPassword3"
+                                placeholder="Event Name">
+                        </div>
+                    </div>
+                </div>
+                <div class="box-body col-sm-6">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-3 control-label">Position</label>
+
+                        <div class="col-sm-9">
+                            <input type="text" name="position" class="form-control" id="inputEmail3"
+                                placeholder="Rank In Event">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-3 control-label">Achievement Year</label>
+
+                        <div class="col-sm-9">
+                            <input type="text" name="event_year" class="form-control" id="inputPassword3"
+                                placeholder="Achievement Year">
+                        </div>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-3 control-label">Event College</label>
+
+                        <div class="col-sm-6">
+                            <input type="text" name="event_college" class="form-control" id="inputEmail3"
+                                placeholder="Event College Name">
+                        </div>
+                    </div>                    
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken%>" />
+                    <button type="submit" class="btn btn-info col-md-offset-6 ">Submit</button>
+                </div>
+                <!-- /.box-footer -->
+            </form>
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+<footer class="main-footer">
+    <div class="pull-right hidden-xs">
+        <b>Version</b> 1.0.0
+    </div>
+    <strong>Copyright &copy; 2018-2019 <a>KIET Club Management Auth</a>.</strong> All rights
+    reserved.
+</footer>
+<% include ../partials/footer.ejs%>
