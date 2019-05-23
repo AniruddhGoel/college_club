@@ -63,6 +63,10 @@ const userSchema = new Schema({
         type: Date,
         default: Date.now(),
     },
+    club_name: {
+      type: String,
+      require: true
+    },
     updated_at: {
         type: Date,
         default: null

@@ -42,7 +42,10 @@ const clubSchema = mongoose.Schema({
     updated_at: {
         type: Date,
         default: null
-    }
+    },
+    link: {
+      type: String
+    },
 });
 
 clubSchema.statics.getClub = async function() {

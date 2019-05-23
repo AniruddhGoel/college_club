@@ -3,7 +3,8 @@ const route = express.Router();
 const ClubList = require('../src/models/collageClub');
 const { User } = require('../src/models/user');
 const ClubAchievement = require('../src/models/clubAchievement');
-const ClubDetails = require('../src/models/clubDetails');
+const ClubDetails = require('../src/models/clubDetails')
+
 const ClubMedia = require('../src/models/clubMedia');
 const UserQuery = require('../src/models/query');
 
@@ -33,51 +34,65 @@ route.get('/', async (req, res) => {
 });
 
 route.get('/fckietclub', (req,res) => {
-    res.render('default/fckiet');
+  const branch = ClubList.find({club_name: 'FC KIET'});
+    res.render('default/fckiet', {link: branch});
 });
 
-route.get('/kommotion', (req,res) => {
-    res.render('default/kommotion');
+route.get('/ecell', async (req,res) => {
+  const branch = await ClubList.find({ club_name: 'E-CELL'});
+  console.log(branch);
+  res.render('default/ecell', {link: branch});
 });
 
-route.get('/phoenix', (req,res) => {
-    res.render('default/pheonix');
+route.get('/kommotion', async (req,res) => {
+  const branch = await ClubList.find({ club_name: 'Kommotion'});
+  res.render('default/kommotion', {link: branch});
 });
 
-route.get('/steppers', (req,res) => {
-    res.render('default/steppers');
+route.get('/phoenix', async (req,res) => {
+  const branch = await ClubList.find({ club_name: 'Phoenix'});
+  res.render('default/pheonix', {link: branch});
 });
 
-route.get('/ecell', (req,res) => {
-    res.render('default/ecell');
+route.get('/steppers', async (req,res) => {
+  const branch = await ClubList.find({ club_name: 'Steppers'});
+  res.render('default/steppers', {link: branch});
 });
 
-route.get('/uddeshhya', (req,res) => {
-    res.render('default/uddeshya');
+route.get('/uddeshhya', async (req,res) => {
+const branch = await ClubList.find({ club_name: 'Uddeshhya'});
+res.render('default/uddeshya', {link: branch});
 });
 
-route.get('/rann', (req,res) => {
-    res.render('default/rann');
+route.get('/rann', async (req,res) => {
+  const branch = await ClubList.find({ club_name: 'Rann'});
+
+  res.render('default/rann', {link: branch});
 });
 
-route.get('/innogeeks', (req,res) => {
-    res.render('default/innogeeks');
+route.get('/innogeeks', async (req,res) => {
+  const branch = await ClubList.find({ club_name: 'Innogeeks'});
+  res.render('default/innogeeks', {link: branch});
 });
 
-route.get('/innotech', (req,res) => {
-    res.render('default/innotech');
+route.get('/innotech', async (req,res) => {
+  const branch = await ClubList.find({ club_name: 'Innotech'});
+  res.render('default/innotech', {link: branch});
 });
 
-route.get('/endeavour', (req,res) => {
-    res.render('default/endeavour');
+route.get('/endeavour', async (req,res) => {
+  const branch = await ClubList.find({ club_name: 'Endeavour'});
+  res.render('default/endeavour', {link: branch});
 });
 
-route.get('/epoque', (req,res) => {
-    res.render('default/epoque');
+route.get('/epoque', async (req,res) => {
+  const branch = await ClubList.find({ club_name: 'Epoque'});
+  res.render('default/epoque', {link: branch});
 });
 
-route.get('/prastuti', (req,res) => {
-    res.render('default/prastuti');
+route.get('/prastuti', async (req,res) => {
+  const branch = await ClubList.find({ club_name: 'Prastuti'});
+  res.render('default/prastuti', {link: branch});
 });
 
 // route.get('/club/:club_name', async (req, res) => {

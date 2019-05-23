@@ -5,6 +5,7 @@ const { User } = require('../src/models/user');
 const ClubAchievement = require('../src/models/clubAchievement');
 const ClubDetails = require('../src/models/clubDetails');
 const ClubMedia = require('../src/models/clubMedia');
+const Query = require('../src/models/query');
 const auth = require('./uitiles/auth');
 var multer = require("multer");
 const path = require('path');
@@ -31,7 +32,8 @@ var upload = multer({ storage: storage_logo })
 var upload_media = multer({ storage: storage_media })
 // faculty get
 route.get('/', auth, (req, res) => {
-    res.render('admin/index');
+  console.log(req.session.status)
+    res.render('admin/index', {role: req.session.status,});
 });
 
 route.get('/createadmin', (req,res) => {
@@ -49,12 +51,12 @@ route.get('/createadmin', (req,res) => {
 });
 
 route.get('/createclub', auth, (req, res) => {
-    res.render('admin/faculty/createclub', { msg: req.flash('msg')[0], status: req.flash('status')[0] });
+    res.render('admin/faculty/createclub', {role: req.session.status, msg: req.flash('msg')[0], status: req.flash('status')[0] });
 });
 route.get('/portalaccess', auth, async (req, res) => {
     try {
         let clubList = await ClubList.getClub();
-        res.render('admin/faculty/portalaccess', { clubList, msg: req.flash('msg')[0], status: req.flash('status')[0] });
+        res.render('admin/faculty/portalaccess', {role: req.session.status, clubList, msg: req.flash('msg')[0], status: req.flash('status')[0] });
     } catch (error) {
         console.error(error);
     }
@@ -77,31 +79,33 @@ route.get('/clublist', auth, async (req, res) => {
         }
         ]);
         console.log(clubUserDetails);
-        res.render('admin/faculty/clublist', { clubUserDetails, msg: req.flash('msg')[0], status: req.flash('status')[0] });
+        res.render('admin/faculty/clublist', {role: req.session.status, clubUserDetails, msg: req.flash('msg')[0], status: req.flash('status')[0] });
     } catch (error) {
         console.log(error.message);
     }
 });
 // faculty post
 
-route.post('/createclub', auth, async (req, res) => {
-    // console.log(req.body);
+route.post('/createclubs', auth, async (req, res) => {
+    console.log(req.body);
     try {
         let user = await User.Finduser(req.body.college_id);
         // console.log(user);
-        let club_data = {
-            club_name: req.body.club_name,
-            club_founder: user._id,
-            club_moto: req.body.club_moto,
-        };
-        let club = ClubList(club_data);
-        let result = await club.save();
-        if (result) {
-          console.log('msg', "New Club Added Successfully");
+
+        let club = new ClubList({
+          club_name: req.body.club_name,
+          club_founder: user._id,
+          club_moto: req.body.club_moto,
+        });
+        club.save((err, result) => {
+          if (result) {
+            console.log('club');
             req.flash('msg', "New Club Added Successfully");
             req.flash('status', true);
             res.redirect('/admin/createclub');
-        }
+          }
+        });
+
     } catch (error) {
       console.log(error);
         req.flash('msg', "Some Error Occurred");
@@ -133,10 +137,10 @@ route.get('/adddetails', auth, async (req, res) => {
         console.log(club_data);
         let club_detail = await ClubDetails.find({ club_id: req.session.club_id });
         if (club_detail.length !== 0) {
-            res.render('admin/student/adddetails', { club_name: club_data[0].club_name, action: '/admin/adddetails', clubData: undefined, club_detail: club_detail, msg: req.flash('msg')[0], status: req.flash('status')[0] });
+            res.render('admin/student/adddetails', {role: req.session.status, club_name: club_data[0].club_name, action: '/admin/adddetails', link: club_data[0].link, club_detail: club_detail, msg: req.flash('msg')[0], status: req.flash('status')[0] });
         } else {
             console.log(club_detail.length);
-            res.render('admin/student/adddetails', { club_name: club_data[0].club_name, action: '/admin/adddetails', clubData: undefined, club_detail: undefined, msg: req.flash('msg')[0], status: req.flash('status')[0] });
+            res.render('admin/student/adddetails', {role: req.session.status, club_name: club_data[0].club_name, action: '/admin/adddetails', link: club_data[0].link, club_detail: undefined, msg: req.flash('msg')[0], status: req.flash('status')[0] });
         }
     } catch (error) {
         console.log(error);
@@ -144,22 +148,27 @@ route.get('/adddetails', auth, async (req, res) => {
 });
 
 route.get('/addachievement', auth, (req, res) => {
-    res.render('admin/student/addachievement', { msg: req.flash('msg')[0], status: req.flash('status')[0] });
+    res.render('admin/student/addachievement', {role: req.session.status, msg: req.flash('msg')[0], status: req.flash('status')[0] });
 });
 
-route.get('/notification', auth, (req, res) => {
-  res.render('admin/student/query', { msg: req.flash('msg')[0], status: req.flash('status')[0] });
+route.get('/notification', auth, async (req, res) => {
+  try{
+    const query =  await Query.find();
+    console.log(query);
+    res.render('admin/student/query', { role: req.session.status, query: query, msg: req.flash('msg')[0], status: req.flash('status')[0] });
+  } catch (error) {
+
+  }
 });
 
 route.get('/addmedia', auth, (req, res) => {
-    res.render('admin/student/addmedia', { msg: req.flash('msg')[0], status: req.flash('status')[0] });
+    res.render('admin/student/addmedia', { role: req.session.status, msg: req.flash('msg')[0], status: req.flash('status')[0] });
 });
 
 route.get('/updatedetails', auth, async (req, res) => {
     try {
         let club_data = await ClubList.find({ _id: req.session.club_id });
-        let clubData = await ClubDetails.find({ club_id: req.session.club_id });
-        res.render('admin/student/adddetails', { club_name: club_data[0].club_name, clubData: clubData[0], action: '/admin/updatedetails', club_detail: undefined });
+        res.render('admin/student/adddetails', { role: req.session.status, club_name: club_data[0].club_name, link: club_data[0].link, action: '/admin/updatedetails', club_detail: undefined });
     } catch (error) {
 
     }
@@ -169,45 +178,36 @@ route.get('/listachievement', auth, async (req, res) => {
     try {
         let achivement_data = await ClubAchievement.find({});
         if (achivement_data.length >= 1) {
-            res.render('admin/student/listachievement', { achivement_data });
+            res.render('admin/student/listachievement', { role: req.session.status, achivement_data });
         } else {
-            res.render('admin/student/listachievement', { achivement_data: undefined });
+            res.render('admin/student/listachievement', { role: req.session.status, achivement_data: undefined });
         }
     } catch (error) {
-        res.render('admin/student/listachievement', { achivement_data: undefined, msg: "Some Error Occurred" });
+        res.render('admin/student/listachievement', { role: req.session.status, achivement_data: undefined, msg: "Some Error Occurred" });
     }
 });
 route.get('/adduser', auth, (req, res) => {
-    res.render('admin/student/adduser', { msg: req.flash('msg')[0], status: req.flash('status')[0]});
+    res.render('admin/student/adduser', { role: req.session.status, msg: req.flash('msg')[0], status: req.flash('status')[0]});
 });
 
 // student post
 var logo_name = upload.fields([{ name: "logo_name", maxCount: 1 }]);
 
 route.post('/adddetails', auth, logo_name, async (req, res) => {
-    try {
-        let club_data = await ClubList.find({ _id: req.session.club_id });
-        let club_detail = {
-            club_id: req.session.club_id,
-            club_tag_line: req.body.club_tag_line,
-            club_domains: req.body.club_domains,
-            club_web: req.body.club_web,
-            club_des: req.body.club_desc,
-            logo_name: req.session.club_id + "." + req.files.logo_name[0].originalname.split('.')[1]
-        }
-        let club_data_object = ClubDetails(club_detail);
-        let result = club_data_object.save();
-        if (result) {
-            req.flash('msg', 'Details Added Successfully');
-            req.flash('status', true);
-            // res.render('admin/student/adddetails', { club_name: club_data[0].club_name, action: '/admin/adddetails', clubData: undefined, club_detail: result });
-            res.redirect('admin/student/adddetails');
-        }
+  console.log(req.body);
+
+  try {
+    ClubList.findOneAndUpdate({_id: req.session.club_id}, {"$set": {link: req.body.club_web}}, {new: true},
+      (err,updates) => {
+        req.flash('msg', 'Details Added Successfully');
+        req.flash('status', true);
+        res.redirect('/admin/adddetails');
+      });
 
     } catch (error) {
         req.flash('msg', 'Some Error Occurred');
         req.flash('status', false);
-        res.redirect('admin/student/adddetails');
+        res.redirect('/admin/adddetails');
     }
 });
 
@@ -302,7 +302,7 @@ route.post('/addmedia', auth, media_name, async (req, res) => {
 });
 
 route.get('/student/adduser', auth , (req,res) => {
-    res.render('admin/student/adduser');
+    res.render('admin/student/adduser' , {role: req.session.status});
 });
 
 var logo_name = upload.fields([{ name: "logo_name", maxCount: 1 }]);
@@ -329,7 +329,8 @@ route.post('/updatedetails', auth, logo_name, async (req, res) => {
     }
 });
 
-route.post('/adduser', auth, async (req, res) => {
+route.post('/addusers', auth, async (req, res) => {
+  console.log(req.body);
     try {
       ClubList.findOne({club_name: req.body.club_name},
         (err, result) => {
@@ -342,10 +343,12 @@ route.post('/adduser', auth, async (req, res) => {
                 userLevel: 3,
                 college_id: req.body.college_id,
                 year: req.body.year,
-                branch: req.body.branch
+                branch: req.body.branch,
+                club_name: req.body.club_name
               });
               new_user.save((err, results) => {
                 if (!err) {
+                  console.log('user');
                   ClubList.findOneAndUpdate({club_name: req.body.club_name}, {"$push": {club_user: results._id}}, {new: true},
                     (err,updates) => {
                       req.flash('msg', 'User Added Successfully');
@@ -386,12 +389,16 @@ route.get('/clubmembers', auth, async (req,res) => {
     if(user.userLevel === 1){
       let clubList = await ClubList.find()
         .populate('club_user');
-      // console.log(clubList);
-      res.render('admin/faculty/members', { clubUserDetails: clubList, msg: req.flash('msg')[0], status: req.flash('status')[0] });
+      console.log(clubList);
+      res.render('admin/faculty/members', { role: req.session.status, clubUserDetails: clubList, msg: req.flash('msg')[0], status: req.flash('status')[0] });
     }
-    // if(user.userLevel === 2) {
-    //
-    // }
+    if(user.userLevel === 2) {
+      let clubList = await ClubList.find({club_name: user.club_name})
+        .populate('club_user');
+      console.log(clubList);
+      res.render('admin/faculty/members', { role: req.session.status, clubUserDetails: clubList, msg: req.flash('msg')[0], status: req.flash('status')[0] });
+
+    }
     // // let user = User.find();
     // let clubList = await ClubList.getClub();
     // // console.log(clubList);

@@ -1,6 +1,6 @@
 <header class="main-header">
     <!-- Logo -->
-    <a href="/net" class="logo">
+    <a href="/admin" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini"><b>E&G</b></span>
         <!-- logo for regular state and mobile devices -->
@@ -41,13 +41,22 @@
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
                 </a>
-                <ul class="treeview-menu">
-                    <li><a href="/admin/createclub/"><i class="fa fa-circle-o"></i> Create Club</a></li>
-                    <li><a href="/admin/clubList/"><i class="fa fa-circle-o"></i>Club List</a></li>
-                    <li><a href="/admin/portalaccess/"><i class="fa fa-circle-o"></i>Portal access</a></li>
-                  <li><a href="/admin/clubmembers/"><i class="fa fa-circle-o"></i>Members List</a></li>
 
+              <% if(role == 2 ){ %>
+                <ul class="treeview-menu">
+
+                  <li><a href="/admin/clubmembers/"><i class="fa fa-circle-o"></i>Members List</a></li>
                 </ul>
+              <% }else{ %>
+              <ul class="treeview-menu">
+                <li><a href="/admin/createclub/"><i class="fa fa-circle-o"></i> Create Club</a></li>
+                <li><a href="/admin/clubList/"><i class="fa fa-circle-o"></i>Club List</a></li>
+                <li><a href="/admin/portalaccess/"><i class="fa fa-circle-o"></i>Portal access</a></li>
+                <li><a href="/admin/clubmembers/"><i class="fa fa-circle-o"></i>Members List</a></li>
+              </ul>
+              <% } %>
+
+
             </li>
             <li class="treeview">
                 <a href="#">
@@ -59,9 +68,9 @@
                 </a>
                 <ul class="treeview-menu">
                     <li><a href="/admin/adddetails/"><i class="fa fa-circle-o"></i> Add Details</a></li>
-                    <li><a href="/admin/addachievement/"><i class="fa fa-circle-o"></i> Add Achievement</a></li>
-                    <li><a href="/admin/addmedia/"><i class="fa fa-circle-o"></i> Add Media</a></li>
-                    <li><a href="/admin/listachievement/"><i class="fa fa-circle-o"></i> List Achievement</a></li>
+                    <!--<li><a href="/admin/addachievement/"><i class="fa fa-circle-o"></i> Add Achievement</a></li>-->
+                    <!--<li><a href="/admin/addmedia/"><i class="fa fa-circle-o"></i> Add Media</a></li>-->
+                    <!--<li><a href="/admin/listachievement/"><i class="fa fa-circle-o"></i> List Achievement</a></li>-->
                 </ul>
             </li>
             <li class="treeview">
