@@ -32,7 +32,6 @@ var upload = multer({ storage: storage_logo })
 var upload_media = multer({ storage: storage_media })
 // faculty get
 route.get('/', auth, (req, res) => {
-  console.log(req.session.status)
     res.render('admin/index', {role: req.session.status,});
 });
 
@@ -78,7 +77,6 @@ route.get('/clublist', auth, async (req, res) => {
             }
         }
         ]);
-        console.log(clubUserDetails);
         res.render('admin/faculty/clublist', {role: req.session.status, clubUserDetails, msg: req.flash('msg')[0], status: req.flash('status')[0] });
     } catch (error) {
         console.log(error.message);
@@ -87,7 +85,6 @@ route.get('/clublist', auth, async (req, res) => {
 // faculty post
 
 route.post('/createclubs', auth, async (req, res) => {
-    console.log(req.body);
     try {
         let user = await User.Finduser(req.body.college_id);
         // console.log(user);
@@ -99,7 +96,6 @@ route.post('/createclubs', auth, async (req, res) => {
         });
         club.save((err, result) => {
           if (result) {
-            console.log('club');
             req.flash('msg', "New Club Added Successfully");
             req.flash('status', true);
             res.redirect('/admin/createclub');
@@ -107,7 +103,6 @@ route.post('/createclubs', auth, async (req, res) => {
         });
 
     } catch (error) {
-      console.log(error);
         req.flash('msg', "Some Error Occurred");
         req.flash('status', false);
         res.redirect('/admin/createclub');
@@ -134,12 +129,10 @@ route.post('/portalaccess', auth, async (req, res) => {
 route.get('/adddetails', auth, async (req, res) => {
     try {
         let club_data = await ClubList.find({ _id: req.session.club_id });
-        console.log(club_data);
         let club_detail = await ClubDetails.find({ club_id: req.session.club_id });
         if (club_detail.length !== 0) {
             res.render('admin/student/adddetails', {role: req.session.status, club_name: club_data[0].club_name, action: '/admin/adddetails', link: club_data[0].link, club_detail: club_detail, msg: req.flash('msg')[0], status: req.flash('status')[0] });
         } else {
-            console.log(club_detail.length);
             res.render('admin/student/adddetails', {role: req.session.status, club_name: club_data[0].club_name, action: '/admin/adddetails', link: club_data[0].link, club_detail: undefined, msg: req.flash('msg')[0], status: req.flash('status')[0] });
         }
     } catch (error) {
@@ -154,7 +147,6 @@ route.get('/addachievement', auth, (req, res) => {
 route.get('/notification', auth, async (req, res) => {
   try{
     const query =  await Query.find();
-    console.log(query);
     res.render('admin/student/query', { role: req.session.status, query: query, msg: req.flash('msg')[0], status: req.flash('status')[0] });
   } catch (error) {
 
@@ -194,7 +186,6 @@ route.get('/adduser', auth, (req, res) => {
 var logo_name = upload.fields([{ name: "logo_name", maxCount: 1 }]);
 
 route.post('/adddetails', auth, logo_name, async (req, res) => {
-  console.log(req.body);
 
   try {
     ClubList.findOneAndUpdate({_id: req.session.club_id}, {"$set": {link: req.body.club_web}}, {new: true},
@@ -240,7 +231,6 @@ route.post('/addmedia', auth, media_name, async (req, res) => {
         let media_data = {}
         let media_data_db = await ClubMedia.find({ club_id: req.session.club_id });
         if (media_data_db.length === 1) {
-            console.log("if");
             if (req.body.media_type === "image") {
                 media_data.media_name = req.session.club_id + "_" + req.files.media_name[0].originalname;
                 let media_arr = [...media_data_db[0].recent_media_images]
@@ -248,7 +238,6 @@ route.post('/addmedia', auth, media_name, async (req, res) => {
                 media_arr.unshift(media_data.media_name);
                 media_tag_arr.unshift(req.body.media_tag);
                 let result = await ClubMedia.findOneAndUpdate({ club_id: req.session.club_id }, { "$set": { recent_media_images: media_arr, recent_media_images_tag: media_tag_arr } });
-                console.log(result);
                 if (result) {
                     req.flash('msg', "Images Added Successfully");
                     req.flash('status', true);
@@ -269,7 +258,6 @@ route.post('/addmedia', auth, media_name, async (req, res) => {
                 }
             }
         } else {
-            console.log("else");
             media_data.club_id = req.session.club_id;
             if (req.body.media_type === "image") {
                 media_data.recent_media_images = [req.session.club_id + "_" + req.files.media_name[0].originalname]
@@ -330,7 +318,6 @@ route.post('/updatedetails', auth, logo_name, async (req, res) => {
 });
 
 route.post('/addusers', auth, async (req, res) => {
-  console.log(req.body);
     try {
       ClubList.findOne({club_name: req.body.club_name},
         (err, result) => {
@@ -348,7 +335,6 @@ route.post('/addusers', auth, async (req, res) => {
               });
               new_user.save((err, results) => {
                 if (!err) {
-                  console.log('user');
                   ClubList.findOneAndUpdate({club_name: req.body.club_name}, {"$push": {club_user: results._id}}, {new: true},
                     (err,updates) => {
                       req.flash('msg', 'User Added Successfully');
@@ -389,13 +375,11 @@ route.get('/clubmembers', auth, async (req,res) => {
     if(user.userLevel === 1){
       let clubList = await ClubList.find()
         .populate('club_user');
-      console.log(clubList);
       res.render('admin/faculty/members', { role: req.session.status, clubUserDetails: clubList, msg: req.flash('msg')[0], status: req.flash('status')[0] });
     }
     if(user.userLevel === 2) {
       let clubList = await ClubList.find({club_name: user.club_name})
         .populate('club_user');
-      console.log(clubList);
       res.render('admin/faculty/members', { role: req.session.status, clubUserDetails: clubList, msg: req.flash('msg')[0], status: req.flash('status')[0] });
 
     }
