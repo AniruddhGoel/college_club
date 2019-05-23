@@ -5,6 +5,7 @@ const { User } = require('../src/models/user');
 const ClubAchievement = require('../src/models/clubAchievement');
 const ClubDetails = require('../src/models/clubDetails');
 const ClubMedia = require('../src/models/clubMedia');
+const UserQuery = require('../src/models/query');
 
 route.get('/', async (req, res) => {
     try {
@@ -107,6 +108,24 @@ route.get('/prastuti', (req,res) => {
 route.get('/contact', async (req, res) => {
     res.render('default/contact');
 });
+
+route.post('/message', async (req, res) => {
+  const query = req.body;
+  const queries = new UserQuery(query);
+  queries.save((err,result) => {
+    if(!err) {
+      req.flash('msg', "Query added successfully");
+      req.flash('status', true);
+      res.redirect('/contact');
+    }
+    else{
+      req.flash('msg', "Some error Occurred");
+      req.flash('status', false);
+      res.redirect('/contact');
+    }
+  })
+});
+
 route.get('/signup', (req,res) => {
     res.render('common/signup');
 });

@@ -25,6 +25,11 @@ const clubSchema = mongoose.Schema({
         type:Array,
         require:null
     },
+    club_user: [
+      {
+        type : mongoose.Schema.Types.ObjectId , ref : 'User'
+      }
+      ],
     updatedBy: {
         type: mongoose.Schema.Types.ObjectId,
         require: false,

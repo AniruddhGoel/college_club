@@ -7,7 +7,7 @@
 						<div class="col-md-12 col-md-offset-0">
 							<div class="animate-box">
 								<h2>Contact Us</h2>
-								<p class="breadcrumbs"><span><a href="index.html">Home</a></span> <span>Contact</span></p>
+								<p class="breadcrumbs"><span><a href="/">Home</a></span> <span>Contact</span></p>
 							</div>
 						</div>
 					</div>
@@ -41,29 +41,29 @@
 					</div>
 					<div class="col-md-8 col-md-pull-4 animate-box">
 						<h2>Get In Touch</h2>
-						<form action="#">
+						<form action="/message" method="POST">
 							<div class="row form-group">
 								<div class="col-md-6">
 									<!-- <label for="fname">First Name</label> -->
-									<input type="text" id="fname" class="form-control" placeholder="Your firstname">
+									<input type="text" name="fname" class="form-control" placeholder="Your firstname">
 								</div>
 								<div class="col-md-6">
 									<!-- <label for="lname">Last Name</label> -->
-									<input type="text" id="lname" class="form-control" placeholder="Your lastname">
+									<input type="text" name="lname" class="form-control" placeholder="Your lastname">
 								</div>
 							</div>
 
 							<div class="row form-group">
 								<div class="col-md-12">
 									<!-- <label for="email">Email</label> -->
-									<input type="text" id="email" class="form-control" placeholder="Your email address">
+									<input type="email" name="email" class="form-control" placeholder="Your email address">
 								</div>
 							</div>
 
 							<div class="row form-group">
 								<div class="col-md-12">
 									<!-- <label for="subject">Subject</label> -->
-									<input type="text" id="subject" class="form-control" placeholder="Your subject of this message">
+									<input type="text" name="subject" class="form-control" placeholder="Your subject of this message">
 								</div>
 							</div>
 
@@ -74,9 +74,10 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<input type="submit" value="Send Message" class="btn btn-primary">
+                <input type="hidden" name="_csrf" value="<%= csrfToken%>" />
+                <input type="submit" value="Send Message" class="btn btn-primary">
 							</div>
-						</form>		
+						</form>
 					</div>
 				</div>
 			</div>

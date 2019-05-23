@@ -103,14 +103,4 @@ userSchema.methods.comparePassword = async function (candidatePassword) {
 
 var User = mongoose.model('User', userSchema);
 
-User.create({
-    email: "goelaniruddh@gmail.com",
-    username: "devil",
-    password_hash: "bijnor12",
-    userLevel: 2,
-    college_id:'1519it1018',
-    year: '4',
-    branch: "IT"
-});
-
 module.exports = { User };

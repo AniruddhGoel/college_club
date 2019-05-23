@@ -33,6 +33,21 @@ var upload_media = multer({ storage: storage_media })
 route.get('/', auth, (req, res) => {
     res.render('admin/index');
 });
+
+route.get('/createadmin', (req,res) => {
+  User.create({
+    email: "goelaniruddh@gmail.com",
+    username: "devil",
+    password_hash: "bijnor12",
+    userLevel: 1,
+    college_id:'1519IT1018',
+    year: '4',
+    branch: "IT"
+  }, () =>{
+    res.redirect('/');
+  });
+});
+
 route.get('/createclub', auth, (req, res) => {
     res.render('admin/faculty/createclub', { msg: req.flash('msg')[0], status: req.flash('status')[0] });
 });
@@ -44,6 +59,7 @@ route.get('/portalaccess', auth, async (req, res) => {
         console.error(error);
     }
 });
+
 route.get('/clublist', auth, async (req, res) => {
     try {
         let clubList = await ClubList.getClub();
@@ -60,6 +76,7 @@ route.get('/clublist', auth, async (req, res) => {
             }
         }
         ]);
+        console.log(clubUserDetails);
         res.render('admin/faculty/clublist', { clubUserDetails, msg: req.flash('msg')[0], status: req.flash('status')[0] });
     } catch (error) {
         console.log(error.message);
@@ -68,10 +85,10 @@ route.get('/clublist', auth, async (req, res) => {
 // faculty post
 
 route.post('/createclub', auth, async (req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
     try {
         let user = await User.Finduser(req.body.college_id);
-        console.log(user);
+        // console.log(user);
         let club_data = {
             club_name: req.body.club_name,
             club_founder: user._id,
@@ -80,11 +97,13 @@ route.post('/createclub', auth, async (req, res) => {
         let club = ClubList(club_data);
         let result = await club.save();
         if (result) {
+          console.log('msg', "New Club Added Successfully");
             req.flash('msg', "New Club Added Successfully");
             req.flash('status', true);
             res.redirect('/admin/createclub');
         }
     } catch (error) {
+      console.log(error);
         req.flash('msg', "Some Error Occurred");
         req.flash('status', false);
         res.redirect('/admin/createclub');
@@ -128,10 +147,14 @@ route.get('/addachievement', auth, (req, res) => {
     res.render('admin/student/addachievement', { msg: req.flash('msg')[0], status: req.flash('status')[0] });
 });
 
+route.get('/notification', auth, (req, res) => {
+  res.render('admin/student/query', { msg: req.flash('msg')[0], status: req.flash('status')[0] });
+});
 
 route.get('/addmedia', auth, (req, res) => {
     res.render('admin/student/addmedia', { msg: req.flash('msg')[0], status: req.flash('status')[0] });
 });
+
 route.get('/updatedetails', auth, async (req, res) => {
     try {
         let club_data = await ClubList.find({ _id: req.session.club_id });
@@ -308,21 +331,74 @@ route.post('/updatedetails', auth, logo_name, async (req, res) => {
 
 route.post('/adduser', auth, async (req, res) => {
     try {
-        let user = await User.findOneAndUpdate({ email: req.body.club_lead_email }, { "$set": { userLevel: 2 } });
-        if (user) {
-            let result = ClubList.findOneAndUpdate({ _id: req.session.club_id }, { "$push": { admin_access: req.body.club_lead_email } });
-            if (result) {
-                req.flash('msg', 'User Added Successfully');
-                req.flash('status', true);
-                res.redirect('admin/student/adduser');
+      ClubList.findOne({club_name: req.body.club_name},
+        (err, result) => {
+          if (result) {
+            if((req.session.status === 1) || (result.club_name === req.body.club_name)){
+              const new_user = new User({
+                email: req.body.user_email,
+                username: req.body.username,
+                password_hash: req.body.password_hash,
+                userLevel: 3,
+                college_id: req.body.college_id,
+                year: req.body.year,
+                branch: req.body.branch
+              });
+              new_user.save((err, results) => {
+                if (!err) {
+                  ClubList.findOneAndUpdate({club_name: req.body.club_name}, {"$push": {club_user: results._id}}, {new: true},
+                    (err,updates) => {
+                      req.flash('msg', 'User Added Successfully');
+                      req.flash('status', true);
+                      res.redirect('/admin/adduser');
+                    });
+                }
+                else {
+                  req.flash('msg', 'Some Error Occurred');
+                  req.flash('status', false);
+                  res.redirect('/admin/adduser');
+                }
+              });
             }
-        }
+            else{
+              req.flash('msg', `You don't have access to add member of another club`);
+              req.flash('status', false);
+              res.redirect('/admin/adduser');
+            }
+          }
+          else{
+            req.flash('msg', 'There is no Club of this name');
+            req.flash('status', false);
+            res.redirect('/admin/adduser');
+          }
+        });
     } catch (error) {
-        req.flash('msg', 'Some Error Occurred');
-        req.flash('status', false);
-        res.redirect('admin/student/adduser');
+      req.flash('msg', 'Some Error Occurred');
+      req.flash('status', false);
+      res.redirect('/admin/adduser');
     }
+});
 
+route.get('/clubmembers', auth, async (req,res) => {
+  try {
+    let user = await User.findOne({_id: req.session.user_id});
+    // console.log(user);
+    if(user.userLevel === 1){
+      let clubList = await ClubList.find()
+        .populate('club_user');
+      // console.log(clubList);
+      res.render('admin/faculty/members', { clubUserDetails: clubList, msg: req.flash('msg')[0], status: req.flash('status')[0] });
+    }
+    // if(user.userLevel === 2) {
+    //
+    // }
+    // // let user = User.find();
+    // let clubList = await ClubList.getClub();
+    // // console.log(clubList);
+    // res.render('admin/faculty/clublist', { clubUserDetails: clubList, msg: req.flash('msg')[0], status: req.flash('status')[0] });
+  } catch (error) {
+    console.log(error.message);
+  }
 });
 
 module.exports = route;
