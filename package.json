@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/anujydv/collageE-G_portal#readme",
   "dependencies": {
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "body-parse": "^0.1.0",
     "compression": "^1.7.4",
     "connect-flash": "^0.1.1",
